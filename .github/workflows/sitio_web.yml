@@ -6,10 +6,18 @@ permissions:
   contents: read
 
 jobs:
-  hola:
+  build: 
     runs-on: ubuntu-latest
+    name: build
     steps:
-      -uses: actions/checkout@v3
-      -name: Mensaje de Saludo 
-        run:
-        echo "Hola Mundo"
+      - name: Autenticacion a Docker Hub   
+       uses: docker/login-action@v3
+       with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Compilar y subir
+        uses: docker/build-push-action@v5
+        with:
+          push: true
+          tags: jassonpaulchi382/sitio_web_docker:latest
+    
